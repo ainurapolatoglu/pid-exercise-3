@@ -24,7 +24,6 @@ public class PokeApp {
         int option = 0;
         System.out.println("Welcome to Poke App!");
         List<Pokemon> pokemons = new ArrayList<>();
-
         Client client = Client.create();
         Map<String, String> pokemonUrlMap = PokemonService.getPokemonUrlMap();
         do {
@@ -44,20 +43,10 @@ public class PokeApp {
                 System.out.println("Please enter pokemon name:");
                 String pokemonName = in.nextLine();
                 String url = pokemonUrlMap.get(pokemonName);
-
-                WebResource webResource = client.resource(url);
-
-                ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-                String responseStr = response.getEntity(String.class);
-                if (response.getStatus() != 200) {
-                    System.out.println("Failed : HTTP error code : " + response.getStatus());
-                    continue;
-                }
-                try {
-                    Pokemon pokemon = new ObjectMapper().readValue(responseStr, new TypeReference<Pokemon>() {});
-                    System.out.println(pokemon);
-                } catch (JsonProcessingException e) {
-                    System.out.println("An error has occured: " + e.getMessage());
+                if (url == null){
+                    System.out.println("Entered pokemon does not exist!");
+                } else {
+                    System.out.println(PokemonService.getPokemon(url));
                 }
 
             } else if (option == 3) {  // Enter location
