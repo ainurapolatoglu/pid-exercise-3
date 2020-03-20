@@ -64,7 +64,7 @@ public class PokeApp {
                 if (locationName == null) {
                         System.out.println("Wrong location ");
                 } else {
-                    System.out.println(LocationService.getLocation(locationName));
+                   // System.out.println(LocationService.getLocation(locationName));
                     System.out.println("Feature under development. ");
                 }
 
