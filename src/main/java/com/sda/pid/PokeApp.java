@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sda.pid.model.Pokemon;
+import com.sda.pid.service.LocationService;
 import com.sda.pid.service.PokemonService;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -26,12 +27,14 @@ public class PokeApp {
         List<Pokemon> pokemons = new ArrayList<>();
         Client client = Client.create();
         Map<String, String> pokemonUrlMap = PokemonService.getPokemonUrlMap();
+        Map<String, String> locationUrlMap = LocationService.getLocationUrlMap();
         do {
             System.out.println("Pick an option:");
             System.out.println("(1) Show pokemon list.");
             System.out.println("(2) Enter a name of pokemon to see its id, height and weight.");
-            System.out.println("(3) Enter a location.");
-            System.out.println("(4) Quit.");
+            System.out.println("(3) Print all locations.");
+            System.out.println("(4) Enter a location.");
+            System.out.println("(5) Quit.");
 
             option = Integer.parseInt(in.nextLine());
 
@@ -49,20 +52,23 @@ public class PokeApp {
                     System.out.println(PokemonService.getPokemon(url));
                 }
 
-            } else if (option == 3) {  // Enter location
-                System.out.println("Please enter location name.");
-                String location = in.nextLine();
+            } else if (option == 3) {  // Print all locations
+                System.out.println("Here is a list of all pokemons");
+                System.out.println(locationUrlMap.keySet());
 
-                if (!location.isEmpty()) {
-                    try {
-                        System.out.println("Location was chosen");
-                    } catch (DateTimeParseException d) {
-                        System.out.println("Entered date is in the wrong format. Default date was set.");
-                    }
-                    System.out.println(location.toString());
+            } else if (option == 4) {
+                System.out.println("Please enter a location name.");
+                String locationName = in.nextLine();
+                String name = locationUrlMap.get(locationName);
+
+                if (locationName == null) {
+                        System.out.println("Wrong location ");
+                } else {
+                    System.out.println(LocationService.getLocation(locationName));
+                    System.out.println("Feature under development. ");
                 }
 
-            } else if (option == 4) { // Quit
+            } else if (option == 5) { // Quit
                 System.out.println(" Thank you! Come again!");
                 System.out.println(" :D ");
                 break;
