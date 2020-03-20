@@ -26,9 +26,9 @@ public class LocationService {
 
             String output = response.getEntity(String.class);
             Map<String, Object> resultMap = new ObjectMapper().readValue(output, new TypeReference<Map<String, Object>>() {});
-            List<Map> pokemonMapList = (List<Map>) resultMap.get("results");
-            for(Map pokemon : pokemonMapList) {
-                locationUrlMap.put((String) pokemon.get("name"), (String) pokemon.get("url"));
+            List<Map> locationMapList = (List<Map>) resultMap.get("results");
+            for(Map location : locationMapList) {
+                locationUrlMap.put((String) location.get("name"), (String) location.get("url"));
             }
 
         } catch (Exception e) {
